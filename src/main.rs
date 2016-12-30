@@ -1,10 +1,11 @@
 extern crate sdl2;
 
+mod events;
+
+use events::Events;
 use sdl2::pixels::Color;
 use std::thread;
 use std::time::Duration;
-
-mod events;
 
 fn main() {
     // Initialize SDL2
@@ -20,7 +21,9 @@ fn main() {
         .accelerated()
         .build().unwrap();
 
-    // Render a black window
+    // Prepare the events record
+    let mut events = Events::new(sdl_context.event_pump().unwrap());
+
     renderer.set_draw_color(Color::RGB(0, 0, 0));
     renderer.clear();
     renderer.present();
