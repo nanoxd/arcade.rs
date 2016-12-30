@@ -4,6 +4,8 @@ use sdl2::pixels::Color;
 use std::thread;
 use std::time::Duration;
 
+mod events;
+
 fn main() {
     // Initialize SDL2
     let sdl_context = sdl2::init().unwrap();
