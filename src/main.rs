@@ -4,8 +4,6 @@ mod events;
 
 use events::Events;
 use sdl2::pixels::Color;
-use std::thread;
-use std::time::Duration;
 
 fn main() {
     // Initialize SDL2
@@ -24,9 +22,15 @@ fn main() {
     // Prepare the events record
     let mut events = Events::new(sdl_context.event_pump().unwrap());
 
-    renderer.set_draw_color(Color::RGB(0, 0, 0));
-    renderer.clear();
-    renderer.present();
+    loop {
+        events.pump();
 
-    thread::sleep(Duration::from_millis(3000));
+        if events.quit || events.key_escape {
+            break;
+        }
+        
+        renderer.set_draw_color(Color::RGB(0, 0, 0));
+        renderer.clear();
+        renderer.present();
+    }
 }
