@@ -2,19 +2,22 @@ extern crate sdl2;
 
 macro_rules! struct_events {
     (
-        keyboard: { $( $k_alias:ident : $k_sdl:ident ),* }
+        keyboard: { $( $k_alias:ident : $k_sdl:ident ),* },
+        else: { $( $e_alias:ident : $e_sdl:pat ),* }
     )
     => {
         use sdl2::EventPump;
 
         pub struct ImmediateEvents {
-            $( pub $k_alias: Option<bool> ),*
+            $( pub $k_alias: Option<bool> , )*
+            $( pub $e_alias: bool ),*
         }
 
         impl ImmediateEvents {
             pub fn new() -> ImmediateEvents {
                 ImmediateEvents {
-                    $( $k_alias: None ),*
+                    $( $k_alias: None , )*
+                    $( $e_alias: false ),*
                 }
             }
         }
@@ -54,7 +57,7 @@ macro_rules! struct_events {
                                     self.$k_alias = true;
                                 }
                             ),*
-                            
+
                             _ => {}
                         },
 
@@ -68,6 +71,12 @@ macro_rules! struct_events {
 
                             _ => {}
                         },
+
+                        $(
+                            $e_sdl => {
+                                self.now.$e_alias = true;
+                            }
+                        )*,
 
                         _ => {}
                     }
