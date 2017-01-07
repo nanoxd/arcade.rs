@@ -9,7 +9,8 @@ struct_events! {
     keyboard: {
         key_escape: Escape,
         key_up: Up,
-        key_down: Down
+        key_down: Down,
+        key_space: Space
     },
     else: {
         quit: Quit { .. }
@@ -90,8 +91,9 @@ pub fn spawn<F>(title: &str, init: F)
         context.events.pump();
 
         match current_view.render(&mut context, 0.01) {
-            ViewAction::None => context.renderer.present(),
-            ViewAction::Quit => break,
+            ViewAction::None                 => context.renderer.present(),
+            ViewAction::Quit                 => break,
+            ViewAction::ChangeView(new_view) => current_view = new_view,
         }
     }
 }
