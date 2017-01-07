@@ -29,6 +29,7 @@ pub struct Phi<'window> {
 pub enum ViewAction {
     None,
     Quit,
+    ChangeView(Box<View>),
 }
 
 pub trait View {
