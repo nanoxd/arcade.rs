@@ -33,11 +33,22 @@ impl Rectangle {
 
 // View Definitions
 
-pub struct ShipView;
+pub struct ShipView {
+    player: Ship,
+}
 
 impl ShipView {
     pub fn new(phi: &mut Phi) -> ShipView {
-        ShipView
+        ShipView {
+            player: Ship {
+                rect: Rectangle {
+                    x: 64.0,
+                    y: 64.0,
+                    w: 32.0,
+                    h: 32.0,
+                }
+            }
+        }
     }
 }
 
@@ -51,6 +62,9 @@ impl View for ShipView {
 
         phi.renderer.set_draw_color(Color::RGB(0, 0, 0));
         phi.renderer.clear();
+
+        phi.renderer.set_draw_color(Color::RGB(200, 200, 50));
+        phi.renderer.fill_rect(self.player.rect.to_sdl().unwrap());
 
         ViewAction::None
     }
