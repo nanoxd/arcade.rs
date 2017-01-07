@@ -35,9 +35,9 @@ pub trait View {
 
 /// Bundles the Phi abstractions in a single structure which
 /// can be passed easily between functions.
-pub struct Phi<'a> {
+pub struct Phi<'window> {
     pub events: Events,
-    pub renderer: Renderer<'a>,
+    pub renderer: Renderer<'window>,
 }
 
 fn main() {
