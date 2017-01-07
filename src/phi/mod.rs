@@ -10,6 +10,8 @@ struct_events! {
         key_escape: Escape,
         key_up: Up,
         key_down: Down,
+        key_left: Left,
+        key_right: Right,
         key_space: Space
     },
     else: {
@@ -53,7 +55,7 @@ pub fn spawn<F>(title: &str, init: F)
         .position_centered().opengl()
         .build().unwrap();
 
-    let mut context = Phi {
+    let mut phi = Phi {
         events: Events::new(sdl_context.event_pump().unwrap()),
         renderer: window.renderer()
             .accelerated()
@@ -61,7 +63,7 @@ pub fn spawn<F>(title: &str, init: F)
     };
 
     // Create the default view
-    let mut current_view = init(&mut context);
+    let mut current_view = init(&mut phi);
 
     // Frame Timing
     let interval = 1_000 / 60;
@@ -88,10 +90,10 @@ pub fn spawn<F>(title: &str, init: F)
             fps = 0;
         }
 
-        context.events.pump();
+        phi.events.pump();
 
-        match current_view.render(&mut context, 0.01) {
-            ViewAction::None                 => context.renderer.present(),
+        match current_view.render(&mut phi, 0.01) {
+            ViewAction::None                 => phi.renderer.present(),
             ViewAction::Quit                 => break,
             ViewAction::ChangeView(new_view) => current_view = new_view,
         }
