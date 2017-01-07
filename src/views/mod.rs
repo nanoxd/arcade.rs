@@ -4,6 +4,9 @@ use sdl2::rect::Rect as SdlRect;
 
 // Constants
 
+/// Pixels traveled by the player's ship every second, when it is moving.
+const PLAYER_SPEED: f64 = 180.0;
+
 // Data types
 
 struct Ship {
@@ -58,7 +61,29 @@ impl View for ShipView {
             return ViewAction::Quit;
         }
 
-        // View Logic
+        // Move the ship
+        let diagonal =
+            (phi.events.key_up ^ phi.events.key_down) &&
+            (phi.events.key_left ^ phi.events.key_right);
+
+        let moved =
+            if diagonal { 1.0 / 2.0f64.sqrt() }
+            else { 1.0 } * PLAYER_SPEED * elapsed;
+
+        let dx = match (phi.events.key_left, phi.events.key_right) {
+            (true, true) | (false, false) => 0.0,
+            (true, false) => -moved,
+            (false, true) => moved,
+        };
+
+        let dy = match (phi.events.key_up, phi.events.key_down) {
+            (true, true) | (false, false) => 0.0,
+            (true, false) => -moved,
+            (false, true) => moved,
+        };
+
+        self.player.rect.x += dx;
+        self.player.rect.y += dy;
 
         phi.renderer.set_draw_color(Color::RGB(0, 0, 0));
         phi.renderer.clear();
