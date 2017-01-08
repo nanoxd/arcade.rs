@@ -35,4 +35,26 @@ impl Sprite {
             .ok()
             .map(Sprite::new)
     }
+
+    /// Returns a new `Sprite` representing a sub-region of the current one.
+    /// The provided `rect` is relative to the currently held region.
+    /// Returns `Some` if the `rect` is valid, i.e. included in the current
+    /// region, and `None` otherwise.
+    pub fn region(&self, rect: Rectangle) -> Option<Sprite> {
+        let new_src = Rectangle {
+            x: rect.x + self.src.x,
+            y: rect.y + self.src.y,
+            ..rect
+        };
+
+        // Is the region inside of the current one
+        if self.src.contains(new_src) {
+            Some(Sprite {
+                tex: self.tex.clone(),
+                src: new_src,
+            })
+        } else {
+            None
+        }
+    }
 }
