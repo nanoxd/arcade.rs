@@ -1,9 +1,7 @@
 use phi::{Phi, View, ViewAction};
 use phi::data::Rectangle;
+use phi::gfx::Sprite;
 use sdl2::pixels::Color;
-use sdl2::render::{Texture, TextureQuery};
-use sdl2_image::LoadTexture;
-use std::path::Path;
 
 // Constants
 
@@ -16,7 +14,7 @@ const SHIP_H: f64 = 39.0;
 
 struct Ship {
     rect: Rectangle,
-    tex: Texture,
+    sprite: Sprite,
 }
 
 // View Definitions
@@ -27,19 +25,18 @@ pub struct ShipView {
 
 impl ShipView {
     pub fn new(phi: &mut Phi) -> ShipView {
-        //? Load the texture from the filesystem.
-        //? If it cannot be found, then there is no point in continuing: panic!
-        let tex = phi.renderer.load_texture(Path::new("assets/spaceship.png")).unwrap();
+        let sprite = Sprite::load(&mut phi.renderer, "assets/spaceship.png").unwrap();
+        let (w, h) = sprite.size();
 
         ShipView {
             player: Ship {
                 rect: Rectangle {
                     x: 64.0,
                     y: 64.0,
-                    w: SHIP_W,
-                    h: SHIP_H,
+                    w: w,
+                    h: h,
                 },
-                tex: tex,
+                sprite: sprite,
             }
         }
     }
@@ -91,17 +88,7 @@ impl View for ShipView {
         phi.renderer.set_draw_color(Color::RGB(200, 200, 50));
         phi.renderer.fill_rect(self.player.rect.to_sdl().unwrap());
 
-        //? We add this part:
-        // Render the ship
-        //? The texture to render is `self.player.tex` (we borrow it mutably)
-        phi.renderer.copy(&mut self.player.tex,
-            Rectangle {
-                x: SHIP_W * 0.0,
-                y: SHIP_H * 1.0,
-                w: self.player.rect.w,
-                h: self.player.rect.h,
-            }.to_sdl(),
-            self.player.rect.to_sdl());
+        self.player.sprite.render(&mut phi.renderer, self.player.rect);
 
         ViewAction::None
     }
