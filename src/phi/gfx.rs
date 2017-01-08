@@ -57,4 +57,13 @@ impl Sprite {
             None
         }
     }
+
+    /// Returns the dimensions of the region
+    pub fn size(&self) -> (f64, f64) {
+        (self.src.w, self.src.h)
+    }
+
+    pub fn render(&self, renderer: &mut Renderer, dest: Rectangle) {
+        renderer.copy(&mut self.tex.borrow_mut(), self.src.to_sdl(), dest.to_sdl())
+    }
 }
