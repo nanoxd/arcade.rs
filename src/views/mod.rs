@@ -93,6 +93,18 @@ impl View for ShipView {
         phi.renderer.set_draw_color(Color::RGB(200, 200, 50));
         phi.renderer.fill_rect(self.player.rect.to_sdl().unwrap());
 
+        //? We add this part:
+        // Render the ship
+        //? The texture to render is `self.player.tex` (we borrow it mutably)
+        phi.renderer.copy(&mut self.player.tex,
+            Rectangle {
+                x: 0.0,
+                y: 0.0,
+                w: self.player.rect.w,
+                h: self.player.rect.h,
+            }.to_sdl(),
+            self.player.rect.to_sdl());
+
         ViewAction::None
     }
 }
