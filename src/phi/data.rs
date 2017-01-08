@@ -52,4 +52,11 @@ impl Rectangle {
         miny >= self.y && miny <= self.y + self.h &&
         maxy >= self.y && maxy <= self.y + self.h
     }
+
+    pub fn overlaps(&self, other: Rectangle) -> bool {
+        self.x < other.x + other.w &&
+        self.x + self.w > other.x &&
+        self.y < other.y + other.h &&
+        self.y + self.h > other.y
+    }
 }
