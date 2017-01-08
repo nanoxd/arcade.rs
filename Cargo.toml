@@ -5,3 +5,4 @@ authors = ["Fernando Paredes <nano@fdp.io>"]
 
 [dependencies]
 sdl2 = "0.13"
+sdl2_image = "0.7.0"
