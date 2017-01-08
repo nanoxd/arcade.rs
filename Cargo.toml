@@ -5,4 +5,4 @@ authors = ["Fernando Paredes <nano@fdp.io>"]
 
 [dependencies]
 sdl2 = "0.13"
-sdl2_image = "0.7.0"
+sdl2_image = { git = "https://github.com/xsleonard/rust-sdl2_image.git", tag = "1.0.0" }

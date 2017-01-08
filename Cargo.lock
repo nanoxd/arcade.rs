@@ -3,7 +3,7 @@ name = "arcade"
 version = "0.1.0"
 dependencies = [
  "sdl2 0.13.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "sdl2_image 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "sdl2_image 1.0.0 (git+https://github.com/xsleonard/rust-sdl2_image.git?tag=1.0.0)",
 ]
 
 [[package]]
@@ -117,8 +117,8 @@ dependencies = [
 
 [[package]]
 name = "sdl2_image"
-version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
+version = "1.0.0"
+source = "git+https://github.com/xsleonard/rust-sdl2_image.git?tag=1.0.0#494410f185d2762a36aba4085af891e998c88a48"
 dependencies = [
  "bitflags 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.18 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -140,4 +140,4 @@ dependencies = [
 "checksum rustc-serialize 0.3.22 (registry+https://github.com/rust-lang/crates.io-index)" = "237546c689f20bb44980270c73c3b9edd0891c1be49cc1274406134a66d3957b"
 "checksum sdl2 0.13.0 (registry+https://github.com/rust-lang/crates.io-index)" = "3c580441f356ded2412dedd9f4709913a7a35368f327a5f9f4a5c0ce9bafe00a"
 "checksum sdl2-sys 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)" = "48bd067cbfaa00649afd649add954e8221af03815e2e261fab6caf274d77c4d1"
-"checksum sdl2_image 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "248ff765d6f62a5afc0377e42584feb676fc1f4353c6d44b537de39c63cb9f3b"
+"checksum sdl2_image 1.0.0 (git+https://github.com/xsleonard/rust-sdl2_image.git?tag=1.0.0)" = "<none>"
