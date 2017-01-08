@@ -4,4 +4,8 @@ A simple Arcade Shooter written in Rust. Following the glorious tutorial at: htt
 
 ## Contributing
 
-To contribute, you need to have [sdl2 framework installed](https://github.com/AngryLawyer/rust-sdl2#sdl20--development-libraries). 
+To contribute, you need to have [sdl2 framework installed](https://github.com/AngryLawyer/rust-sdl2#sdl20--development-libraries) and sdl2-image. 
+
+```sh
+brew install sdl2 sdl2_image
+```
