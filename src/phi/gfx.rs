@@ -26,4 +26,13 @@ impl Sprite {
             }
         }
     }
+
+    /// Creates a new sprite from an image file located at the given path.
+    /// Returns `Some` if the file could be read, and `None` otherwise.
+    pub fn load(renderer: &Renderer, path: &str) -> Option<Sprite> {
+        renderer
+            .load_texture(Path::new(path))
+            .ok()
+            .map(Sprite::new)
+    }
 }
