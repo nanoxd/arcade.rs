@@ -28,6 +28,13 @@ pub struct Phi<'window> {
 }
 
 impl<'window> Phi<'window> {
+    fn new(events: Events, renderer: Renderer<'window>) -> Phi<'window> {
+        Phi {
+            events: events,
+            renderer: renderer,
+        }
+    }
+
     pub fn output_size(&self) -> (f64, f64) {
         let (w, h) = self.renderer.output_size().unwrap();
 
