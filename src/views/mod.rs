@@ -1,6 +1,9 @@
 use phi::{Phi, View, ViewAction};
 use phi::data::Rectangle;
 use sdl2::pixels::Color;
+use sdl2::render::{Texture, TextureQuery};
+use sdl2_image::LoadTexture;
+use std::path::Path;
 
 // Constants
 
@@ -11,6 +14,7 @@ const PLAYER_SPEED: f64 = 180.0;
 
 struct Ship {
     rect: Rectangle,
+    tex: Texture,
 }
 
 // View Definitions
@@ -21,14 +25,23 @@ pub struct ShipView {
 
 impl ShipView {
     pub fn new(phi: &mut Phi) -> ShipView {
+        //? Load the texture from the filesystem.
+        //? If it cannot be found, then there is no point in continuing: panic!
+        let tex = phi.renderer.load_texture(Path::new("assets/spaceship.png")).unwrap();
+
+        //? Destructure some properties of the texture, notably width and
+        //? height, which we will use for the ship's bounding box.
+        let TextureQuery { width, height, .. } = tex.query();
+
         ShipView {
             player: Ship {
                 rect: Rectangle {
                     x: 64.0,
                     y: 64.0,
-                    w: 32.0,
-                    h: 32.0,
-                }
+                    w: width as f64,
+                    h: height as f64,
+                },
+                tex: tex,
             }
         }
     }
