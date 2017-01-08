@@ -26,6 +26,14 @@ pub struct Phi<'window> {
     pub renderer: Renderer<'window>,
 }
 
+impl<'window> Phi<'window> {
+    pub fn output_size(&self) -> (f64, f64) {
+        let (w, h) = self.renderer.output_size().unwrap();
+
+        (w as f64, h as f64)
+    }
+}
+
 /// A `ViewAction` is a way for the currently executed view to
 /// communicate with the game loop. It specifies which action
 /// should be executed before the next rendering.
