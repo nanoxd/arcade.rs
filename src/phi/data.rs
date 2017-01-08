@@ -40,4 +40,16 @@ impl Rectangle {
             else { self.y }
         })
     }
+
+    pub fn contains(&self, rect: Rectangle) -> bool {
+        let minx = rect.x;
+        let maxx = minx + rect.w;
+        let miny = rect.y;
+        let maxy = miny + rect.h;
+
+        minx >= self.x && minx <= self.x + self.w &&
+        maxx >= self.x && maxx <= self.x + self.w &&
+        miny >= self.y && miny <= self.y + self.h &&
+        maxy >= self.y && maxy <= self.y + self.h
+    }
 }
