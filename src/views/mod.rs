@@ -103,8 +103,18 @@ impl View for ShipView {
             (false, true) => moved,
         };
 
+
         self.player.rect.x += dx;
         self.player.rect.y += dy;
+
+        let movable_region = Rectangle {
+            x: 0.0,
+            y: 0.0,
+            w: phi.output_size().0 * 0.70,
+            h: phi.output_size().1,
+        };
+
+        self.player.rect = self.player.rect.move_inside(movable_region).unwrap();
 
         phi.renderer.set_draw_color(Color::RGB(0, 0, 0));
         phi.renderer.clear();
