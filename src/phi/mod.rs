@@ -52,7 +52,7 @@ pub fn spawn<F>(title: &str, init: F)
 
     // Create a window
     let window = video.window(title, 800, 600)
-        .position_centered().opengl()
+        .position_centered().opengl().resizable()
         .build().unwrap();
 
     let mut phi = Phi {
@@ -90,7 +90,7 @@ pub fn spawn<F>(title: &str, init: F)
             fps = 0;
         }
 
-        phi.events.pump();
+        phi.events.pump(&mut phi.renderer);
 
         match current_view.render(&mut phi, 0.01) {
             ViewAction::None                 => phi.renderer.present(),
