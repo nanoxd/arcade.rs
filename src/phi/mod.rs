@@ -6,6 +6,7 @@ pub mod data;
 pub mod gfx;
 
 use sdl2::render::Renderer;
+use phi::gfx::{CopySprite, Sprite};
 
 struct_events! {
     keyboard: {
@@ -73,12 +74,12 @@ pub fn spawn<F>(title: &str, init: F)
         .position_centered().opengl().resizable()
         .build().unwrap();
 
-    let mut phi = Phi {
-        events: Events::new(sdl_context.event_pump().unwrap()),
-        renderer: window.renderer()
+    let mut phi = Phi::new(
+        Events::new(sdl_context.event_pump().unwrap()),
+        window.renderer()
             .accelerated()
             .build().unwrap()
-    };
+    );
 
     // Create the default view
     let mut current_view = init(&mut phi);
