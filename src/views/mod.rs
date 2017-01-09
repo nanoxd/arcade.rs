@@ -12,6 +12,21 @@ const SHIP_H: f64 = 39.0;
 
 // Data types
 
+/// The different states our ship might be in. In the image, they're ordered
+/// from left to right, then from top to bottom.
+#[derive(Clone, Copy)]
+enum ShipFrame {
+    UpNorm = 0,
+    UpFast = 1,
+    UpSlow = 2,
+    MidNorm = 3,
+    MidFast = 4,
+    MidSlow = 5,
+    DownNorm = 6,
+    DownFast = 7,
+    DownSlow = 8
+}
+
 struct Ship {
     rect: Rectangle,
     sprite: Sprite,
