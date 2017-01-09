@@ -6,7 +6,6 @@ pub mod data;
 pub mod gfx;
 
 use sdl2::render::Renderer;
-use phi::gfx::{CopySprite, Sprite};
 
 struct_events! {
     keyboard: {

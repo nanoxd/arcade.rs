@@ -1,6 +1,6 @@
 use phi::{Phi, View, ViewAction};
 use phi::data::Rectangle;
-use phi::gfx::Sprite;
+use phi::gfx::{CopySprite, Sprite};
 use sdl2::pixels::Color;
 
 // Constants
@@ -131,8 +131,9 @@ impl View for ShipView {
         phi.renderer.set_draw_color(Color::RGB(200, 200, 50));
         phi.renderer.fill_rect(self.player.rect.to_sdl().unwrap());
 
-        self.player.sprites[self.player.current as usize]
-            .render(&mut phi.renderer, self.player.rect);
+        phi.renderer.copy_sprite(
+            &self.player.sprites[self.player.current as usize],
+            self.player.rect);
 
         ViewAction::None
     }
