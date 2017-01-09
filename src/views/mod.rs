@@ -29,7 +29,8 @@ enum ShipFrame {
 
 struct Ship {
     rect: Rectangle,
-    sprite: Sprite,
+    sprites: Vec<Sprite>,
+    current: ShipFrame,
 }
 
 // View Definitions
@@ -40,18 +41,33 @@ pub struct ShipView {
 
 impl ShipView {
     pub fn new(phi: &mut Phi) -> ShipView {
-        let sprite = Sprite::load(&mut phi.renderer, "assets/spaceship.png").unwrap();
-        let (w, h) = sprite.size();
+        let spritesheet = Sprite::load(&mut phi.renderer, "assets/spaceship.png").unwrap();
+
+        //? When we know in advance how many elements the `Vec` we contain, we
+        //? can allocate the good amount of data up-front.
+        let mut sprites = Vec::with_capacity(9);
+
+        for y in 0..3 {
+            for x in 0..3 {
+                sprites.push(spritesheet.region(Rectangle {
+                    w: SHIP_W,
+                    h: SHIP_H,
+                    x: SHIP_W * x as f64,
+                    y: SHIP_H * y as f64,
+                }).unwrap());
+            }
+        }
 
         ShipView {
             player: Ship {
                 rect: Rectangle {
                     x: 64.0,
                     y: 64.0,
-                    w: w,
-                    h: h,
+                    w: SHIP_W,
+                    h: SHIP_H,
                 },
-                sprite: sprite,
+                sprites: sprites,
+                current: ShipFrame::MidNorm,
             }
         }
     }
@@ -97,13 +113,26 @@ impl View for ShipView {
 
         self.player.rect = self.player.rect.move_inside(movable_region).unwrap();
 
+        self.player.current =
+            if dx == 0.0 && dy < 0.0       { ShipFrame::UpNorm }
+            else if dx > 0.0 && dy < 0.0   { ShipFrame::UpFast }
+            else if dx < 0.0 && dy < 0.0   { ShipFrame::UpSlow }
+            else if dx == 0.0 && dy == 0.0 { ShipFrame::MidNorm }
+            else if dx > 0.0 && dy == 0.0  { ShipFrame::MidFast }
+            else if dx < 0.0 && dy == 0.0  { ShipFrame::MidSlow }
+            else if dx == 0.0 && dy > 0.0  { ShipFrame::DownNorm }
+            else if dx > 0.0 && dy > 0.0   { ShipFrame::DownFast }
+            else if dx < 0.0 && dy > 0.0   { ShipFrame::DownSlow }
+            else { unreachable!() };
+
         phi.renderer.set_draw_color(Color::RGB(0, 0, 0));
         phi.renderer.clear();
 
         phi.renderer.set_draw_color(Color::RGB(200, 200, 50));
         phi.renderer.fill_rect(self.player.rect.to_sdl().unwrap());
 
-        self.player.sprite.render(&mut phi.renderer, self.player.rect);
+        self.player.sprites[self.player.current as usize]
+            .render(&mut phi.renderer, self.player.rect);
 
         ViewAction::None
     }
